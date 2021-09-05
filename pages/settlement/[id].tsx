@@ -16,7 +16,8 @@ import useSWR from 'swr'
 import {ManageLegacySettlement} from "compositions/ManageLegacySettlement";
 import {isAddressMatch} from "utils";
 import {ManageV2Settlement} from "compositions/ManageV2Settlement";
-import {realms} from "constants/traits";
+import {realms, resources} from "constants/traits";
+import {ResourceBalance} from "components/ResourceBalance";
 
 type SettlementProps = {
   id: string;
@@ -52,30 +53,6 @@ const ViewSettlement: NextPage<SettlementProps> = (
   } = useSWR(['ownerOf', legacy, id],
     (_, legacy, tokenId) => legacy ? STL.ownerOf(tokenId) : STLV2.ownerOf(tokenId)
   )
-
-  const randomise = useCallback(async () => {
-    try {
-      if (!STLV2 || isReadOnly) {
-        throw new Error('Contract is not authorised')
-      }
-      await handleTx(STLV2.randomise(id))
-    } catch (e) {
-      console.error(e)
-    }
-
-  }, [STLV2, handleTx, id, isReadOnly])
-
-  const harvest = useCallback(async () => {
-    try {
-      if (!STLV2 || isReadOnly) {
-        throw new Error('Contract is not authorised')
-      }
-      await handleTx(STLV2.harvest(id))
-    } catch (e) {
-      console.error(e)
-    }
-
-  }, [STLV2, handleTx, id, isReadOnly])
 
 
   const approveV2 = useCallback(async () => {
@@ -156,12 +133,14 @@ const ViewSettlement: NextPage<SettlementProps> = (
                   approve={approveV2}
                   migrate={migrateV2}
                 /> :
-                <ManageV2Settlement
-                  rolls={rolls}
-                  txInProgress={txInProgress}
-                  txStatus={txStatus}
-                  randomise={randomise}
-                />}
+                <ManageV2Settlement id={id} rolls={rolls}/>
+              }
+            </div>
+          )}
+          {account && (
+            <div>
+              <h3>Your Resource Balances</h3>
+              {resources.map(r => <ResourceBalance key={r} resource={r}/>)}
             </div>
           )}
           {NETWORK_CHAIN_ID === 1 && (

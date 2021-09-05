@@ -1,32 +1,66 @@
-import {WalletCallStatus} from "hooks/useContractTx";
-import React from "react";
+import {useContractTransaction, WalletCallStatus} from "hooks/useContractTx";
+import React, {useCallback, useContext} from "react";
+import {ContractContext} from "providerts/ContractProvider";
 
 interface ManageSettlementProps {
-  txInProgress: boolean
-  txStatus: WalletCallStatus
+  id: string
   rolls: number
-  randomise: () => Promise<void>
 }
 
 export const ManageV2Settlement: React.FC<ManageSettlementProps> = (
   {
-    txStatus,
-    txInProgress,
-    rolls,
-    randomise,
+    id, rolls,
   }) => {
+
+  const {STLV2, isReadOnly} = useContext(ContractContext)
+  const {handleTx: handleRand, txStatus: randTxStatus, txInProgress: randIP } = useContractTransaction(1)
+  const {handleTx: handleHarvest, txStatus: harvestStatus, txInProgress: harvIP } = useContractTransaction(1)
+
+
+  const randomise = useCallback(async () => {
+    try {
+      if (!STLV2 || isReadOnly) {
+        throw new Error('Contract is not authorised')
+      }
+      await handleRand(STLV2.randomise(id))
+    } catch (e) {
+      console.error(e)
+    }
+
+  }, [STLV2, handleRand, id, isReadOnly])
+
+  const harvest = useCallback(async () => {
+    try {
+      if (!STLV2 || isReadOnly) {
+        throw new Error('Contract is not authorised')
+      }
+      await handleHarvest(STLV2.harvest(id))
+    } catch (e) {
+      console.error(e)
+    }
+
+  }, [STLV2, handleHarvest, id, isReadOnly])
 
   return (
     <div>
       <div style={{marginBottom: 40}}>
-        <button disabled={txInProgress} role="button" onClick={randomise}>
-          {txStatus === WalletCallStatus.ERRORED ? (
+        <button disabled={randIP} role="button" onClick={randomise}>
+          {randTxStatus === WalletCallStatus.ERRORED ? (
             `Try Again`
-          ) : txStatus === WalletCallStatus.PROMPTED ? (
+          ) : randTxStatus === WalletCallStatus.PROMPTED ? (
             'Confirm the transaction in your wallet'
-          ) : txStatus === WalletCallStatus.CONFIRMING ? (
+          ) : randTxStatus === WalletCallStatus.CONFIRMING ? (
             'confirming...'
           ) : 'Randomise'}
+        </button>
+        <button disabled={harvIP} role="button" onClick={harvest}>
+          {harvestStatus === WalletCallStatus.ERRORED ? (
+            `Try Again`
+          ) : harvestStatus === WalletCallStatus.PROMPTED ? (
+            'Confirm the transaction in your wallet'
+          ) : harvestStatus === WalletCallStatus.CONFIRMING ? (
+            'confirming...'
+          ) : 'Harvest'}
         </button>
       </div>
       <p style={{margin: '10px 0', maxWidth: '75%'}}>
