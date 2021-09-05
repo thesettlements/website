@@ -13,10 +13,12 @@
     "@ethersproject/providers": "^5.4.5",
     "@zoralabs/nft-components": "^0.1.9",
     "@zoralabs/nft-hooks": "^0.5.1",
+    "@zoralabs/simple-wallet-provider": "^0.0.7",
     "boring-avatars": "^1.5.8",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "sass": "^1.39.0"
   },
   "devDependencies": {
     "@types/react": "17.0.19",

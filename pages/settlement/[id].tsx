@@ -8,6 +8,7 @@ import {FetchStaticData, MediaFetchAgent, NetworkIDs} from "@zoralabs/nft-hooks"
 import {SETTLEMENT_CONTRACT_ADDRESS} from "constants/addresses";
 import {NETWORK_CHAIN_ID} from "constants/network";
 import {contractService} from "services/contracts.service";
+import {Header} from "components/Header";
 
 type SettlementProps = {
   id: string;
@@ -24,8 +25,6 @@ const ViewSettlement: NextPage<SettlementProps> = (
     initialData,
   }) => {
 
-  console.log(initialData)
-
   const {isFallback} = useRouter()
 
   if (isFallback || !initialData) {
@@ -38,8 +37,9 @@ const ViewSettlement: NextPage<SettlementProps> = (
     <Fragment>
       <Head>
         <title>{initialData?.name}</title>
+        <meta name="description" content={description} />
       </Head>
-
+      <Header/>
       <main className={styles.main}>
         <h1>{initialData.name}</h1>
         <NFTFullPage
@@ -48,7 +48,7 @@ const ViewSettlement: NextPage<SettlementProps> = (
           id={id}
         >
           <div className={styles.media}>
-            <MediaObject metadata={initialData.nft.tokenData.metadata.json}/>
+            <MediaObject metadata={{...initialData.nft.tokenData.metadata.json, image}}/>
           </div>
           <FullComponents.AuctionInfo showPerpetual={false}/>
           <FullComponents.MediaInfo/>
