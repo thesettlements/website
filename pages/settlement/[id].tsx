@@ -165,7 +165,7 @@ export const getStaticProps: GetServerSideProps<SettlementProps> = async ({param
     const legacyData = await contractService.fetchTokenData(params.id)
     const data = await contractService.fetchTokenDataV2(params.id)
 
-    if (!data && !legacyData) {
+    if (!data && !legacyData || !legacyData) {
       return {
         notFound: true,
         revalidate: 60
