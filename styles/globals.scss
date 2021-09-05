@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi:wght@400;700&display=swap');
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Kaisei HarunoUmi', sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, a, p {
+  margin: 0 0 15px 0;
+}
+
+button {
+  font-family: 'Kaisei HarunoUmi', sans-serif;
+  font-weight: 600;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  font-size: 14px;
+  padding: 10px 15px;
+  background: white;
+  border: 1px solid black;
+  transition: background .2s ease-in;
+
+  &:hover {
+    cursor: pointer;
+    background: black;
+    color: white;
+    transform: scale(1.05);
+  }
+
+}
+.zora-wallet-modalContent {
+  width: 500px;
+
+  button.zora--auction-house-actionButton {
+    @extend button;
+    margin-bottom: 15px;
+  }
+}
+
+.zora-wallet-modalText {
+  width: 500px;
+  background: white !important;
+  border: 1px solid black;
+}
+.zora--auction-house-modalInner {
+  background: white !important;
+  color: black !important;
+}
+.zora-wallet-walletOptionsList {
+  background: white !important;
+  color: black !important;
+}
+.zora-wallet-walletOption {
+  background: white !important;
+}

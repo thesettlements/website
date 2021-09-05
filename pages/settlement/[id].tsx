@@ -1,19 +1,24 @@
 import Head from "next/head";
-import styles from 'styles/Settlement.module.css';
-import React, {Fragment} from "react";
+import styles from 'styles/Settlement.module.scss';
+import React, {Fragment, useCallback, useContext} from "react";
 import {GetServerSideProps, NextPage} from "next";
 import {useRouter} from "next/router";
 import {FullComponents, MediaObject, NFTFullPage} from "@zoralabs/nft-components";
 import {FetchStaticData, MediaFetchAgent, NetworkIDs} from "@zoralabs/nft-hooks";
 import {SETTLEMENT_CONTRACT_ADDRESS} from "constants/addresses";
-import {NETWORK_CHAIN_ID} from "constants/network";
 import {contractService} from "services/contracts.service";
+import {Header} from "components/Header";
+import {ContractContext} from "providerts/ContractProvider";
+import {useContractTransaction, WalletCallStatus} from "hooks/useContractTx";
+import {useWeb3React} from "@web3-react/core";
+import {isAddressMatch} from "utils";
+import {NETWORK_CHAIN_ID} from "constants/network";
 
 type SettlementProps = {
   id: string;
   description: any;
   image: string;
-  initialData: any;
+  initialData: any
 };
 
 const ViewSettlement: NextPage<SettlementProps> = (
@@ -24,9 +29,17 @@ const ViewSettlement: NextPage<SettlementProps> = (
     initialData,
   }) => {
 
-  console.log(initialData)
-
   const {isFallback} = useRouter()
+  const {account} = useWeb3React()
+  const {STL, isReadOnly} = useContext(ContractContext)
+  const {handleTx, txStatus, txInProgress, txError} = useContractTransaction(1)
+
+  const randomise = useCallback(async () => {
+    if (!STL || isReadOnly) {
+      throw new Error('Contract is not authorised')
+    }
+    await handleTx(STL.randomise(id))
+  }, [STL, handleTx, id, isReadOnly])
 
   if (isFallback || !initialData) {
     return <p>
@@ -38,8 +51,9 @@ const ViewSettlement: NextPage<SettlementProps> = (
     <Fragment>
       <Head>
         <title>{initialData?.name}</title>
+        <meta name="description" content={description}/>
       </Head>
-
+      <Header/>
       <main className={styles.main}>
         <h1>{initialData.name}</h1>
         <NFTFullPage
@@ -48,8 +62,24 @@ const ViewSettlement: NextPage<SettlementProps> = (
           id={id}
         >
           <div className={styles.media}>
-            <MediaObject metadata={initialData.nft.tokenData.metadata.json}/>
+            <MediaObject metadata={{...initialData.nft.tokenData.metadata.json, image}}/>
           </div>
+          {account && isAddressMatch(account, initialData.nft.tokenData?.owner) && (
+            <>
+              <button disabled={txInProgress} onClick={randomise}>
+                {txStatus === WalletCallStatus.ERRORED ? (
+                  `Try Again`
+                ) : txStatus === WalletCallStatus.PROMPTED ? (
+                  'Confirm the transaction in your wallet'
+                ) : txStatus === WalletCallStatus.CONFIRMING ? (
+                  <span>confirming</span>
+                ) : 'Randomise your settlement'}
+              </button>
+              <h5 className={styles.error}>
+                {txError}
+              </h5>
+            </>
+          )}
           <FullComponents.AuctionInfo showPerpetual={false}/>
           <FullComponents.MediaInfo/>
         </NFTFullPage>
@@ -58,7 +88,7 @@ const ViewSettlement: NextPage<SettlementProps> = (
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({params}) => {
+export const getServerSideProps: GetServerSideProps<SettlementProps> = async ({params}) => {
   if (!params?.id || Array.isArray(params.id)) {
     return {notFound: true};
   }
@@ -91,5 +121,6 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
     },
   };
 };
+
 
 export default ViewSettlement

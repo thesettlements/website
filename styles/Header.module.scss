@@ -1,0 +1,28 @@
+
+.container {
+  width: 100%;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border: 1px solid black;
+  transition: all .2s ease-in;
+  width: 150px;
+  text-align: center;
+
+  h4 {
+    margin: 0;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: black;
+    color: white;
+  }
+}
