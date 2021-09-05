@@ -1,3 +1,5 @@
 import {NETWORK_CHAIN_ID} from "constants/network";
+import SettlementV2 from 'abis/SettlementsV2.json'
 
-export const SETTLEMENT_CONTRACT_ADDRESS = NETWORK_CHAIN_ID === 1 ? '0xdEcC60000ba66700a009b8F9F7D82676B5cfA88A' : '0xad0557de907ad5dbdc55ab237b4692c1e09ee7c2';
+export const SETTLEMENT_CONTRACT_ADDRESS = NETWORK_CHAIN_ID === 1 ? '0xdEcC60000ba66700a009b8F9F7D82676B5cfA88A' : '0x71482Da8ec9ACa79b699c37fD1F7eAC5833221b5';
+export const SETTLEMENT_V2_CONTRACT_ADDRESS = SettlementV2.address;

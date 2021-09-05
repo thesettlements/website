@@ -28,10 +28,10 @@ button {
   appearance: none;
   -webkit-appearance: none;
   outline: none;
-  font-size: 14px;
+  font-size: 16px;
   padding: 10px 15px;
   background: white;
-  border: 1px solid black;
+  border: 2px solid black;
   transition: background .2s ease-in;
 
   &:hover {
