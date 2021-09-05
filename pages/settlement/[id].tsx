@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styles from 'styles/Settlement.module.scss';
-import React, {Fragment, useCallback, useContext} from "react";
+import React, {Fragment, useCallback, useContext, useMemo} from "react";
 import {GetServerSideProps, NextPage} from "next";
 import {useRouter} from "next/router";
 import {FullComponents, MediaObject, NFTFullPage} from "@zoralabs/nft-components";
@@ -13,6 +13,7 @@ import {useContractTransaction, WalletCallStatus} from "hooks/useContractTx";
 import {useWeb3React} from "@web3-react/core";
 import {isAddressMatch} from "utils";
 import {NETWORK_CHAIN_ID} from "constants/network";
+import {realms} from "constants/traits";
 
 type SettlementProps = {
   id: string;
@@ -40,6 +41,13 @@ const ViewSettlement: NextPage<SettlementProps> = (
     }
     await handleTx(STL.randomise(id))
   }, [STL, handleTx, id, isReadOnly])
+
+
+  const rolls = useMemo(() => {
+    const realm = initialData.nft.tokenData.metadata.json.attributes[6].value;
+    return 5 - realms.indexOf(realm) || 0
+  }, [initialData.nft.tokenData.metadata.json.attributes])
+
 
   if (isFallback || !initialData) {
     return <p>
@@ -73,8 +81,14 @@ const ViewSettlement: NextPage<SettlementProps> = (
                   'Confirm the transaction in your wallet'
                 ) : txStatus === WalletCallStatus.CONFIRMING ? (
                   <span>confirming</span>
-                ) : 'Randomise your settlement'}
+                ) : 'Randomise'}
               </button>
+              <p style={{margin: '20px 0'}}>
+                You have <b>{rolls}</b> turns left to randomise your settlement
+                and be given an entirely new set of trails. Every time you
+                randomise you progress a realm, and once go you leave a realm
+                you can never come back.
+              </p>
               <h5 className={styles.error}>
                 {txError}
               </h5>
