@@ -1,5 +1,11 @@
 import React, {useMemo} from "react";
-import {WATER_TOKEN_ADDRESS} from "constants/addresses";
+import {
+  GOLD_TOKEN_ADDRESS,
+  GRAIN_TOKEN_ADDRESS,
+  GRASS_TOKEN_ADDRESS,
+  IRON_TOKEN_ADDRESS, SILVER_TOKEN_ADDRESS,
+  WATER_TOKEN_ADDRESS, WOOD_TOKEN_ADDRESS, WOOL_TOKEN_ADDRESS
+} from "constants/addresses";
 import useSWR from "swr";
 import {BaseErc20Factory} from "@zoralabs/core/dist/typechain";
 import {defaultProvider} from "constants/providers";
@@ -9,7 +15,15 @@ import {formatUnits} from '@ethersproject/units';
 const resourceToContract: {
   [key: string]: string
 } = {
-  water: WATER_TOKEN_ADDRESS
+  water: WATER_TOKEN_ADDRESS,
+  gold: GOLD_TOKEN_ADDRESS,
+  grain: GRAIN_TOKEN_ADDRESS,
+  grass: GRASS_TOKEN_ADDRESS,
+  iron: IRON_TOKEN_ADDRESS,
+  silver: SILVER_TOKEN_ADDRESS,
+  wood: WOOD_TOKEN_ADDRESS,
+  wool: WOOL_TOKEN_ADDRESS,
+
 }
 
 export const ResourceBalance: React.FC<{ resource: string }> = ({resource}) => {
