@@ -5,51 +5,49 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 .main {
-    padding: 5rem 0;
+    padding: 50px 0;
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.title a {
-    text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
-}
-
-.title {
-    margin: 0;
-    line-height: 1.15;
-    font-size: 40px;
-}
-
-.title,
-.description {
-    text-align: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-width: 800px;
+    width: 100%;
     margin: 0 auto;
+    font-family: 'Kaisei HarunoUmi', serif;
 }
 
-.description {
-    margin-top: 40px;
-    line-height: 1.5;
-    font-size: 1.5rem;
-    max-width: 600px;
+.main .loreContainer {
+    padding: 50px 0;
 }
+
+.main .loreContainer h3 {
+    opacity: 0.5;
+}
+
+.main .title, .subtitle {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.main .subtitle {
+    opacity: 0.5;
+    font-weight: 300;
+}
+
+.main p {
+    margin-bottom: 50px;
+    font-size: 50px;
+}
+
 
 .links {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 40px;
 }
 
