@@ -43,6 +43,19 @@
     font-size: 50px;
 }
 
+@media only screen and (max-width: 1080px) {
+    .main p {
+        font-size: 32px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .main p {
+        font-size: 24px;
+    }
+}
+
+
 
 .links {
     display: flex;
