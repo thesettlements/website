@@ -1,8 +1,8 @@
 import {ages, governments, morales, realms, resources, sizes, spirits} from "constants/traits";
-import {SettlementContract} from "providerts/ContractProvider";
+import {Contract} from "@ethersproject/contracts";
 
 
-export async function buildMigrationPayload(tokenId: string, legacyContract: SettlementContract){
+export async function buildMigrationPayload(tokenId: string, legacyContract: Contract){
 
   const tokenURI = await legacyContract.tokenURI(tokenId);
 

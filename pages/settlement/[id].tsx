@@ -30,7 +30,6 @@ const ViewSettlement: NextPage<SettlementProps> = (
   {
     id,
     description,
-    image,
     data,
     legacy
   }) => {
