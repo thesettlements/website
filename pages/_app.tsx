@@ -3,6 +3,7 @@ import type {AppProps} from 'next/app'
 import {css} from '@emotion/css'
 import {Web3ConfigProvider} from '@zoralabs/simple-wallet-provider'
 import {NETWORK_CHAIN_ID, NETWORK_URL} from "constants/network";
+import {ContractProvider} from "providerts/ContractProvider";
 
 function MyApp({Component, pageProps}: AppProps) {
   return (
@@ -25,7 +26,9 @@ function MyApp({Component, pageProps}: AppProps) {
           `,
         }}
       >
-        <Component {...pageProps} />
+        <ContractProvider>
+          <Component {...pageProps} />
+        </ContractProvider>
       </Web3ConfigProvider>
     </>
   )

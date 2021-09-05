@@ -11,14 +11,13 @@
   align-items: center;
   justify-content: center;
   padding: 5px 10px;
-  border-radius: 40px;
   border: 1px solid black;
-  transition: background .2s ease-in;
+  transition: all .2s ease-in;
+  width: 150px;
+  text-align: center;
 
   h4 {
-    font-family: 'Roboto Mono', monospace;
-    margin: 0 0 0 10px;
-    text-transform: uppercase;
+    margin: 0;
   }
 
   &:hover {
