@@ -89,7 +89,7 @@ const ViewSettlement: NextPage<SettlementProps> = (
       console.log(err)
     }
   }, [STL, STLV2, handleTx, id, isReadOnly])
-
+  
   const isOwner = useMemo(() => owner && account && isAddressMatch(account, owner), [account, owner])
 
   const rolls = useMemo(() => {
@@ -172,7 +172,7 @@ export const getStaticProps: GetServerSideProps<SettlementProps> = async ({param
         description: data?.description || legacyData?.description,
         image: data?.image || legacyData?.image,
         data: data || legacyData,
-        legacy: !!legacyData
+        legacy: !!legacyData && !data
       },
       revalidate: 60
     };
