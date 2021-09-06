@@ -86,10 +86,10 @@ const ViewSettlement: NextPage<SettlementProps> = (
       )
       await handleTx(tx)
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }, [STL, STLV2, handleTx, id, isReadOnly])
-  
+
   const isOwner = useMemo(() => owner && account && isAddressMatch(account, owner), [account, owner])
 
   const rolls = useMemo(() => {
