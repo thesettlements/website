@@ -181,6 +181,7 @@ export const getStaticProps: GetServerSideProps<SettlementProps> = async ({param
         data: data || legacyData,
         legacy: !!legacyData
       },
+      revalidate: 60
     };
   } catch (e) {
     return {
