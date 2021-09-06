@@ -179,7 +179,7 @@ export const getStaticProps: GetServerSideProps<SettlementProps> = async ({param
         description: data?.description || legacyData?.description,
         image: data?.image || legacyData?.image,
         data: data || legacyData,
-        legacy: !data
+        legacy: !!legacyData
       },
     };
   } catch (e) {
