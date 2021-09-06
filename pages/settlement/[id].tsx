@@ -3,14 +3,13 @@ import styles from 'styles/Settlement.module.scss';
 import React, {Fragment, useCallback, useContext, useMemo} from "react";
 import {GetServerSideProps, GetStaticPaths, NextPage} from "next";
 import {useRouter} from "next/router";
-import {FullComponents, MediaObject, NFTFullPage} from "@zoralabs/nft-components";
+import {MediaObject, NFTFullPage} from "@zoralabs/nft-components";
 import {SETTLEMENT_CONTRACT_ADDRESS, SETTLEMENT_V2_CONTRACT_ADDRESS} from "constants/addresses";
 import {contractService, SettlementData} from "services/contracts.service";
 import {Header} from "components/Header";
 import {ContractContext} from "providerts/ContractProvider";
 import {useContractTransaction} from "hooks/useContractTx";
 import {useWeb3React} from "@web3-react/core";
-import {NETWORK_CHAIN_ID} from "constants/network";
 import {buildMigrationPayload} from "utils/migrate";
 import useSWR from 'swr'
 import {ManageLegacySettlement} from "compositions/ManageLegacySettlement";
@@ -142,12 +141,6 @@ const ViewSettlement: NextPage<SettlementProps> = (
               <h3>Your Resource Balances</h3>
               {resources.map(r => <ResourceBalance key={r} resource={r}/>)}
             </div>
-          )}
-          {NETWORK_CHAIN_ID === 1 && (
-            <>
-              <FullComponents.AuctionInfo showPerpetual={false}/>
-              <FullComponents.MediaInfo/>
-            </>
           )}
         </NFTFullPage>
       </main>

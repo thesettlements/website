@@ -39,7 +39,7 @@ export const ResourceBalance: React.FC<{ resource: string }> = ({resource}) => {
   } = useSWR(['balanceOf', contractAddress, account],
     (_, address, account) => BaseErc20Factory.connect(address, defaultProvider).balanceOf(account)
   )
-  
+
   if (data?.lte('0')) {
     return <div />
   }
