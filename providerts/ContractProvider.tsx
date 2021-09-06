@@ -4,11 +4,11 @@ import {defaultProvider} from "constants/providers";
 import {SETTLEMENT_CONTRACT_ADDRESS, SETTLEMENT_V2_CONTRACT_ADDRESS} from "constants/addresses";
 import {Erc721, Erc721Factory} from "@zoralabs/core/dist/typechain";
 import {Contract} from "@ethersproject/contracts";
-import SettlementV2 from 'abis/SettlementsV2.json'
+import {SettlementV2Abi} from "constants/abis";
 
 
 const defaultSettlement = Erc721Factory.connect(SETTLEMENT_CONTRACT_ADDRESS, defaultProvider);
-const defaultSettlementV2 = new Contract(SettlementV2.address, SettlementV2.abi, defaultProvider)
+const defaultSettlementV2 = new Contract(SETTLEMENT_V2_CONTRACT_ADDRESS, SettlementV2Abi, defaultProvider)
 
 export interface ContractCtx {
   STL: Erc721
@@ -37,7 +37,7 @@ export const ContractProvider: React.FC = ({children}) => {
     if (account && library) {
       const authorisedSettlements = Erc721Factory.connect(SETTLEMENT_CONTRACT_ADDRESS, signer);
       setSTLContract(authorisedSettlements)
-      const authorisedSettlementV2 = new Contract(SETTLEMENT_V2_CONTRACT_ADDRESS, SettlementV2.abi, signer)
+      const authorisedSettlementV2 = new Contract(SETTLEMENT_V2_CONTRACT_ADDRESS, SettlementV2Abi, signer)
       setSTLV2Contract(authorisedSettlementV2);
       setIsReadOnly(false)
     }

@@ -38,7 +38,7 @@ const ViewSettlement: NextPage<SettlementProps> = (
 
   const {account} = useWeb3React()
   const {STL, STLV2, isReadOnly} = useContext(ContractContext)
-  const {handleTx, txStatus, txInProgress, txError} = useContractTransaction(1)
+  const {handleTx, txStatus, txInProgress} = useContractTransaction(1)
 
   const {
     data: approved,
@@ -73,7 +73,7 @@ const ViewSettlement: NextPage<SettlementProps> = (
         throw new Error('Contract is not authorised')
       }
       const dto = await buildMigrationPayload(id, STL);
-      console.log(STLV2)
+      console.log(dto)
       const tx = STLV2.claim(
         id,
         [dto.size,
