@@ -3,8 +3,11 @@ import {
   GOLD_TOKEN_ADDRESS,
   GRAIN_TOKEN_ADDRESS,
   GRASS_TOKEN_ADDRESS,
-  IRON_TOKEN_ADDRESS, SILVER_TOKEN_ADDRESS,
-  WATER_TOKEN_ADDRESS, WOOD_TOKEN_ADDRESS, WOOL_TOKEN_ADDRESS
+  IRON_TOKEN_ADDRESS,
+  SILVER_TOKEN_ADDRESS,
+  WATER_TOKEN_ADDRESS,
+  WOOD_TOKEN_ADDRESS,
+  WOOL_TOKEN_ADDRESS
 } from "constants/addresses";
 import useSWR from "swr";
 import {BaseErc20Factory} from "@zoralabs/core/dist/typechain";
@@ -36,9 +39,7 @@ export const ResourceBalance: React.FC<{ resource: string }> = ({resource}) => {
   } = useSWR(['balanceOf', contractAddress, account],
     (_, address, account) => BaseErc20Factory.connect(address, defaultProvider).balanceOf(account)
   )
-
-  console.log(data)
-
+  
   if (data?.lte('0')) {
     return <div />
   }

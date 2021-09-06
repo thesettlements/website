@@ -15,6 +15,7 @@ export interface SettlementData {
   attributes: { trait_type: string, value: string }[]
 }
 
+
 async function fetchTokenData(tokenId: string): Promise<SettlementData | undefined> {
   try {
     const contract = new Contract(SETTLEMENT_CONTRACT_ADDRESS, [
