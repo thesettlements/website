@@ -68,7 +68,7 @@ export const ManageV2Settlement: React.FC<ManageSettlementProps> = (
         and be given an entirely new set of traits.
       </p>
       <p style={{margin: '10px 0', maxWidth: '75%'}}>
-        Every time you randomise you progress a realm, and once go you leave a realm
+        Every time you randomise you progress a realm, and once you leave a realm
         you can never come back.
       </p>
     </div>
