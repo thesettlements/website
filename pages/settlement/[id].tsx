@@ -126,6 +126,7 @@ const ViewSettlement: NextPage<SettlementProps> = (
             <div className={styles.manageContainer}>
               {legacy ?
                 <ManageLegacySettlement
+                  id={id}
                   txInProgress={txInProgress}
                   txStatus={txStatus}
                   approved={!!approved}
