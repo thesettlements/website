@@ -7,8 +7,7 @@ import Head from "next/head";
 import {ContractContext} from "providerts/ContractProvider";
 import {buildMigrationPayload} from "utils/migrate";
 
-
-function Upgrade() {
+function Migrate() {
 
   const {isFallback} = useRouter()
   const [tokenIds, setTokenIds] = useState(['']);
@@ -24,8 +23,8 @@ function Upgrade() {
     newTokenIds[index] = event.target.value;
     setTokenIds(newTokenIds);
   }, [tokenIds]);
-
-  const onUpgrade = useCallback(async () => {
+  
+  const onMigrate = useCallback(async () => {
     try {
       if (!STL || !STLV2 || isReadOnly) {
         throw new Error('Contract is not authorised')
@@ -42,23 +41,21 @@ function Upgrade() {
     }
   }, [STL, STLV2, handleTx, isReadOnly, tokenIds])
 
-
   if (isFallback) {
     return <p>
       loading...
     </p>
   }
 
-
   return (
     <Fragment>
     <Head>
-      <title>Upgrade</title>
-      <meta name="description" content={"Upgrade your Settlements"}/>
+      <title>Migrate</title>
+      <meta name="description" content={"Migrate your Settlements"}/>
     </Head>
     <Header/>
     <main className={styles.main}>
-      <h1>Upgrade</h1>
+      <h1>Migrate</h1>
       <div>
         {tokenIds.map((_, index) => (
           <>
@@ -69,14 +66,14 @@ function Upgrade() {
           <button style={{marginRight: 20}} role="button" onClick={onAddAnother}>
             {'Add another'}
           </button>
-          <button role="button" onClick={onUpgrade}>
+          <button role="button" onClick={onMigrate}>
           {harvestStatus === WalletCallStatus.ERRORED ? (
             `Try Again`
           ) : harvestStatus === WalletCallStatus.PROMPTED ? (
             'Confirm the transaction in your wallet'
           ) : harvestStatus === WalletCallStatus.CONFIRMING ? (
             'confirming...'
-          ) : 'Upgrade'}
+          ) : (tokenIds.length > 1 ? `Migrate ${tokenIds.length} Settlements` : 'Migrate')}
           </button>
         </div>
       </div>
@@ -84,4 +81,4 @@ function Upgrade() {
   </Fragment>)
 }
   
-export default Upgrade;
+export default Migrate;
