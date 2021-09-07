@@ -1,6 +1,6 @@
 import {useContractTransaction, WalletCallStatus} from "hooks/useContractTx";
 import {useRouter} from "next/router";
-import styles from 'styles/Settlement.module.scss';
+import styles from 'styles/Migrate.module.scss';
 import React, {Fragment, useState, useContext, useCallback} from "react";
 import {Header} from "components/Header";
 import Head from "next/head";
@@ -9,7 +9,6 @@ import {buildMigrationPayload} from "utils/migrate";
 
 function Migrate() {
 
-  const {isFallback} = useRouter()
   const [tokenIds, setTokenIds] = useState(['']);
   
   const {STL, STLV2, isReadOnly} = useContext(ContractContext)
@@ -23,50 +22,43 @@ function Migrate() {
     newTokenIds[index] = event.target.value;
     setTokenIds(newTokenIds);
   }, [tokenIds]);
-  
+
   const onMigrate = useCallback(async () => {
     try {
       if (!STL || !STLV2 || isReadOnly) {
         throw new Error('Contract is not authorised')
       }
-      const attributePromises =  tokenIds.filter((id) => !!id).map((id) => buildMigrationPayload(id, STL));
+      const filteredTokenIds = tokenIds.filter((id) => !!id);
+      const attributePromises =  filteredTokenIds.map((id) => buildMigrationPayload(id, STL));
       if (attributePromises.length == 0) {
         return;
       }
       const attributes = await Promise.all(attributePromises);
-      const tx = STLV2.multiClaim([...tokenIds], [...attributes]);
+      const tx = STLV2.multiClaim([...filteredTokenIds], [...attributes]);
       await handleTx(tx)
     } catch (err) {
       console.error(err)
     }
   }, [STL, STLV2, handleTx, isReadOnly, tokenIds])
 
-  if (isFallback) {
-    return <p>
-      loading...
-    </p>
-  }
-
   return (
     <Fragment>
     <Head>
       <title>Migrate</title>
-      <meta name="description" content={"Migrate your Settlements"}/>
+      <meta name="description" content="Migrate your Settlements"/>
     </Head>
     <Header/>
     <main className={styles.main}>
       <h1>Migrate</h1>
-      <div>
-        {tokenIds.map((_, index) => (
-          <>
-            <input style={{marginBottom: 20}} id={index.toString()} key={index} placeholder={'Token ID'} onChange={onChange}/><br></br>
-          </>
-        ))}
+      <div className={styles.migrate}>
+        {tokenIds.map((_, index) => 
+            <input className={styles.input} id={index.toString()} key={index} placeholder={'Token ID'} onChange={onChange}/>
+        )}
         <div>
-          <button style={{marginRight: 20}} role="button" onClick={onAddAnother}>
-            {'Add another'}
+          <button className={styles.button} style={{marginRight: 20}} role="button" onClick={onAddAnother}>
+            Add another
           </button>
-          <button role="button" onClick={onMigrate}>
+          <button className={styles.button} role="button" onClick={onMigrate}>
           {harvestStatus === WalletCallStatus.ERRORED ? (
             `Try Again`
           ) : harvestStatus === WalletCallStatus.PROMPTED ? (
