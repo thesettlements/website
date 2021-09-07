@@ -65,7 +65,7 @@ export const ManageV2Settlement: React.FC<ManageSettlementProps> = (
       </div>
       <p style={{margin: '10px 0', maxWidth: '75%'}}>
         You have <b>{rolls}</b> turns left to randomise your settlement
-        and be given an entirely new set of trails.
+        and be given an entirely new set of traits.
       </p>
       <p style={{margin: '10px 0', maxWidth: '75%'}}>
         Every time you randomise you progress a realm, and once go you leave a realm
