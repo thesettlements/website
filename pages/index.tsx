@@ -1,6 +1,7 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from 'styles/Home.module.scss'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
   return (
@@ -25,7 +26,8 @@ const Home: NextPage = () => {
             <a href="https://discord.gg/UCN8QBQB" target="_blank" rel="noopener noreferrer">
               Discord
             </a>
-            <a href="https://etherscan.io/token/0xdEcC60000ba66700a009b8F9F7D82676B5cfA88A" target="_blank" rel="noopener noreferrer">
+            <a href="https://etherscan.io/token/0xdEcC60000ba66700a009b8F9F7D82676B5cfA88A" target="_blank"
+               rel="noopener noreferrer">
               Etherscan
             </a>
             <a href="https://twitter.com/the_settlements" target="_blank" rel="noopener noreferrer">
@@ -42,6 +44,38 @@ const Home: NextPage = () => {
             </a>
           </div>
         </div>
+
+        <h3>Are you an existing V1 Token Holder? </h3>
+        <Link href="/migrate" passHref>
+          <a className={styles.migrateButton} target="_blank">Migrate your Settlements</a>
+        </Link>
+
+
+        <article className={styles.loreContainer}>
+          <h3> Chapter Two — A dream</h3>
+
+          <p>The Builder had built. But it was not... whole.</p>
+          <p>
+            Civilisations crumbled before they were able to blossom, the realms were in a constant cycle of turmoil and
+            destruction. Some found pockets of calm and happiness that lasted for years, whole generations even, but all
+            met their ultimate fate - born into worlds that saw their end approaching and incapable of changing it they
+            perished. As if it all was predestined and part of a cosmic game with rules so arcane, that not even the
+            Seers were able to understand or predict them. They also perished.
+          </p>
+          <p>
+            The Builder had overlooked some detail, something so crucial that no matter which way the intricate web of
+            the {"Builder's"} thoughts manifested as physical reality it just didn’t seem right. Something was missing.
+            This was not the Builder’s dream.
+          </p>
+          <p>
+            So the Builder fell asleep once again, resting in the shadow of the All-Mother, gathering strength, dreaming
+            a new dream.
+          </p>
+          <p>
+            Soon the Builder will rise again and build. Something new. Something better. A world that can grow and
+            blossom.
+          </p>
+        </article>
 
         <article className={styles.loreContainer}>
           <h3>Chapter One — The Beginning</h3>
@@ -82,11 +116,6 @@ const Home: NextPage = () => {
           <p>
             There was so much to build.
           </p>
-        </article>
-
-        <article className={styles.loreContainer}>
-          <h3> Chapter Two - Resources, Resources, Resources</h3>
-          <p>👀</p>
         </article>
 
       </main>
