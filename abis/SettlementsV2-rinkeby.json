@@ -1,5 +1,5 @@
 {
-  "address": "0x26dbb5ac0cec5cc6b5b19e8168aff5c267c90e10",
+  "address": "0x800de4be4b5509aC7a19a7069eF52d382a20016b",
   "abi": [
     {
       "inputs": [
@@ -416,6 +416,19 @@
         }
       ],
       "name": "claim",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "claimAndReroll",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -863,49 +876,6 @@
         }
       ],
       "name": "setApprovalForAll",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string[]",
-          "name": "sizes",
-          "type": "string[]"
-        },
-        {
-          "internalType": "string[]",
-          "name": "spirits",
-          "type": "string[]"
-        },
-        {
-          "internalType": "string[]",
-          "name": "ages",
-          "type": "string[]"
-        },
-        {
-          "internalType": "string[]",
-          "name": "resources",
-          "type": "string[]"
-        },
-        {
-          "internalType": "string[]",
-          "name": "morales",
-          "type": "string[]"
-        },
-        {
-          "internalType": "string[]",
-          "name": "governments",
-          "type": "string[]"
-        },
-        {
-          "internalType": "string[]",
-          "name": "realms",
-          "type": "string[]"
-        }
-      ],
-      "name": "setAttributeOptions",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
