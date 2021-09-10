@@ -72,7 +72,6 @@ const ViewSettlement: NextPage<SettlementProps> = ({
         throw new Error("Contract is not authorised");
       }
       const dto = await buildMigrationPayload(id, STL);
-      console.log(dto);
       const tx = STLV2.claim(id, [
         dto.size,
         dto.spirit,

@@ -20,7 +20,6 @@ export const ManageShip: React.FC<Props> = ({ id }) => {
         throw new Error("Contract is not authorised");
       }
 
-      console.log(id);
       await handleHarvest(Ships.harvest(id));
     } catch (e) {
       console.error(e);

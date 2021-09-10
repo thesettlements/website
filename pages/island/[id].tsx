@@ -30,7 +30,7 @@ type Props = {
   data: SettlementData;
 };
 
-const ViewSettlement: NextPage<Props> = ({ id, description, data }) => {
+const ViewIsland: NextPage<Props> = ({ id, description, data }) => {
   const { isFallback } = useRouter();
   const { account } = useWeb3React();
   const { Islands, isReadOnly } = useContext(ContractContext);
@@ -43,8 +43,6 @@ const ViewSettlement: NextPage<Props> = ({ id, description, data }) => {
     () => owner && account && isAddressMatch(account, owner),
     [account, owner]
   );
-
-  console.log("owner", owner, isOwner);
 
   if (isFallback || !data) {
     return <p>loading...</p>;
@@ -61,7 +59,7 @@ const ViewSettlement: NextPage<Props> = ({ id, description, data }) => {
         <h1>{data.name}</h1>
         <NFTFullPage
           useBetaIndexer={true}
-          contract={SETTLEMENT_CONTRACT_ADDRESS}
+          contract={ISLAND_CONTRACT_ADDRESS}
           id={id}
         >
           <div className={styles.media}>
@@ -116,12 +114,12 @@ export const getStaticProps: GetServerSideProps<Props> = async ({ params }) => {
         image: data?.image,
         data: data,
       },
-      revalidate: 10,
+      revalidate: 60,
     };
   } catch (e) {
     return {
       notFound: true,
-      revalidate: 10,
+      revalidate: 60 * 5,
     };
   }
 };
@@ -133,4 +131,4 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-export default ViewSettlement;
+export default ViewIsland;

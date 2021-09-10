@@ -35,7 +35,7 @@ type Props = {
 const ViewShip: NextPage<Props> = ({ id, description, data }) => {
   const { isFallback } = useRouter();
   const { account } = useWeb3React();
-  const { Ships, isReadOnly } = useContext(ContractContext);
+  const { Ships } = useContext(ContractContext);
 
   const { data: owner } = useSWR(["ownerOf", id], (_, tokenId) =>
     Ships.ownerOf(tokenId)
@@ -45,8 +45,6 @@ const ViewShip: NextPage<Props> = ({ id, description, data }) => {
     () => owner && account && isAddressMatch(account, owner),
     [account, owner]
   );
-
-  console.log("owner", owner, isOwner);
 
   if (isFallback || !data) {
     return <p>loading...</p>;
@@ -63,7 +61,7 @@ const ViewShip: NextPage<Props> = ({ id, description, data }) => {
         <h1>{data.name}</h1>
         <NFTFullPage
           useBetaIndexer={true}
-          contract={SETTLEMENT_CONTRACT_ADDRESS}
+          contract={SHIP_CONTRACT_ADDRESS}
           id={id}
         >
           <div className={styles.media}>
@@ -118,12 +116,12 @@ export const getStaticProps: GetServerSideProps<Props> = async ({ params }) => {
         image: data?.image,
         data: data,
       },
-      revalidate: 10,
+      revalidate: 60,
     };
   } catch (e) {
     return {
       notFound: true,
-      revalidate: 10,
+      revalidate: 60 * 5,
     };
   }
 };
