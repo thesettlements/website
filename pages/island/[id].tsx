@@ -5,6 +5,7 @@ import { GetServerSideProps, GetStaticPaths, NextPage } from "next";
 import { useRouter } from "next/router";
 import { MediaObject, NFTFullPage } from "@zoralabs/nft-components";
 import {
+  ISLAND_CONTRACT_ADDRESS,
   SETTLEMENT_CONTRACT_ADDRESS,
   SETTLEMENT_V2_CONTRACT_ADDRESS,
 } from "constants/addresses";
@@ -20,83 +21,30 @@ import { isAddressMatch } from "utils";
 import { ManageV2Settlement } from "compositions/ManageV2Settlement";
 import { realms, resources } from "constants/traits";
 import { ResourceBalance } from "components/ResourceBalance";
+import { ManageIsland } from "compositions/ManageIsland";
 
-type SettlementProps = {
+type Props = {
   id: string;
   description: any;
   image: string;
   data: SettlementData;
-  legacy: boolean;
 };
 
-const ViewSettlement: NextPage<SettlementProps> = ({
-  id,
-  description,
-  data,
-  legacy,
-}) => {
+const ViewSettlement: NextPage<Props> = ({ id, description, data }) => {
   const { isFallback } = useRouter();
-
   const { account } = useWeb3React();
-  const { STL, STLV2, isReadOnly } = useContext(ContractContext);
-  const { handleTx, txStatus, txInProgress } = useContractTransaction(1);
+  const { Islands, isReadOnly } = useContext(ContractContext);
 
-  const { data: approved, mutate: revalidateApproval } = useSWR(
-    ["isApprovedForAll", account],
-    (_, account) =>
-      STL.isApprovedForAll(account, SETTLEMENT_V2_CONTRACT_ADDRESS)
+  const { data: owner } = useSWR(["ownerOf", id], (_, tokenId) =>
+    Islands.ownerOf(tokenId)
   );
-
-  const { data: owner } = useSWR(
-    ["ownerOf", legacy, id],
-    (_, legacy, tokenId) =>
-      legacy ? STL.ownerOf(tokenId) : STLV2.ownerOf(tokenId)
-  );
-
-  const approveV2 = useCallback(async () => {
-    try {
-      if (!STL || !STLV2 || isReadOnly) {
-        throw new Error("Contract is not authorised");
-      }
-      const tx = STL.setApprovalForAll(SETTLEMENT_V2_CONTRACT_ADDRESS, true);
-      await handleTx(tx);
-      await revalidateApproval();
-    } catch (e) {
-      console.error(e);
-    }
-  }, [STL, STLV2, handleTx, isReadOnly, revalidateApproval]);
-
-  const migrateV2 = useCallback(async () => {
-    try {
-      if (!STL || !STLV2 || isReadOnly) {
-        throw new Error("Contract is not authorised");
-      }
-      const dto = await buildMigrationPayload(id, STL);
-      console.log(dto);
-      const tx = STLV2.claim(id, [
-        dto.size,
-        dto.spirit,
-        dto.age,
-        dto.resource,
-        dto.morale,
-        dto.government,
-        dto.turns,
-      ]);
-      await handleTx(tx);
-    } catch (err) {
-      console.error(err);
-    }
-  }, [STL, STLV2, handleTx, id, isReadOnly]);
 
   const isOwner = useMemo(
     () => owner && account && isAddressMatch(account, owner),
     [account, owner]
   );
 
-  const rolls = useMemo(() => {
-    const realm = data?.attributes[6].value;
-    return 5 - realms.indexOf(realm) || 0;
-  }, [data]);
+  console.log("owner", owner, isOwner);
 
   if (isFallback || !data) {
     return <p>loading...</p>;
@@ -122,20 +70,10 @@ const ViewSettlement: NextPage<SettlementProps> = ({
 
           {isOwner && (
             <div className={styles.manageContainer}>
-              {legacy ? (
-                <ManageLegacySettlement
-                  id={id}
-                  txInProgress={txInProgress}
-                  txStatus={txStatus}
-                  approved={!!approved}
-                  approve={approveV2}
-                  migrate={migrateV2}
-                />
-              ) : (
-                <ManageV2Settlement id={id} rolls={rolls} />
-              )}
+              <ManageIsland id={id} />
             </div>
           )}
+
           {account && (
             <div>
               <h3>Your Resource Balances</h3>
@@ -150,22 +88,20 @@ const ViewSettlement: NextPage<SettlementProps> = ({
   );
 };
 
-export const getStaticProps: GetServerSideProps<SettlementProps> = async ({
-  params,
-}) => {
+export const getStaticProps: GetServerSideProps<Props> = async ({ params }) => {
   if (!params?.id || Array.isArray(params.id)) {
     return { notFound: true };
   }
+
   const id = params.id as string;
 
   try {
-    const legacyData = await contractService.fetchTokenData(
+    const data = await contractService.fetchTokenData(
       params.id,
-      SETTLEMENT_CONTRACT_ADDRESS
+      ISLAND_CONTRACT_ADDRESS
     );
-    const data = await contractService.fetchTokenDataV2(params.id);
 
-    if ((!data && !legacyData) || !legacyData) {
+    if (!data) {
       return {
         notFound: true,
         revalidate: 60,
@@ -175,18 +111,17 @@ export const getStaticProps: GetServerSideProps<SettlementProps> = async ({
     return {
       props: {
         id,
-        name: data?.name || legacyData?.name,
-        description: data?.description || legacyData?.description,
-        image: data?.image || legacyData?.image,
-        data: data || legacyData,
-        legacy: !!legacyData && !data,
+        name: data?.name,
+        description: data?.description,
+        image: data?.image,
+        data: data,
       },
-      revalidate: 60,
+      revalidate: 10,
     };
   } catch (e) {
     return {
       notFound: true,
-      revalidate: 60 * 5,
+      revalidate: 10,
     };
   }
 };

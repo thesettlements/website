@@ -1,9 +1,13 @@
 import {NETWORK_CHAIN_ID} from "constants/network";
 import SettlementV2Rinkeby from 'abis/SettlementsV2-rinkeby.json'
 import SettlementV2Mainnet from 'abis/SettlementsV2-mainnet.json'
+import IslandsRinkeby from 'abis/Islands-rinkeby.json'
+import ShipsRinkeby from 'abis/Ships-rinkeby.json'
 
 export const SETTLEMENT_CONTRACT_ADDRESS = NETWORK_CHAIN_ID === 1 ? '0xdEcC60000ba66700a009b8F9F7D82676B5cfA88A' : '0x71482da8ec9aca79b699c37fd1f7eac5833221b5';
 export const SETTLEMENT_V2_CONTRACT_ADDRESS = NETWORK_CHAIN_ID === 1 ? SettlementV2Mainnet.address : SettlementV2Rinkeby.address;
+export const ISLAND_CONTRACT_ADDRESS = NETWORK_CHAIN_ID === 4 ? IslandsRinkeby.address : IslandsRinkeby.address;
+export const SHIP_CONTRACT_ADDRESS = NETWORK_CHAIN_ID === 4 ? ShipsRinkeby.address : ShipsRinkeby.address;
 
 export const GOLD_TOKEN_ADDRESS = NETWORK_CHAIN_ID === 1 ? '0x044011824D5CbBb788965B11bF98dc1657407644' : '0xf5483A123b1336767d8f897189f31a0a755ACe43';
 export const GRAIN_TOKEN_ADDRESS = NETWORK_CHAIN_ID === 1 ? '0xC8a505a1Df5c80f7297d8E2A963cfB1872e6A62c' : '0xd84e3D50524ee72Ed6EFEC63E419fb9E339B0a6C';
