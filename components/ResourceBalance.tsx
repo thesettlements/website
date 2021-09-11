@@ -47,7 +47,6 @@ export const ResourceBalance: React.FC<{ resource: string }> = ({
     [resource]
   );
 
-  console.log(resource);
   const { data } = useSWR(
     ["balanceOf", contractAddress, account],
     (_, address, account) =>
