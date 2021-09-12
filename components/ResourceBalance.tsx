@@ -54,7 +54,7 @@ export const ResourceBalance: React.FC<{ resource: string }> = ({
   );
 
   if (data?.lte("0")) {
-    return <div />;
+    return null;
   }
 
   return (

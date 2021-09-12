@@ -12,7 +12,7 @@ export const ManageShip: React.FC<Props> = ({ id }) => {
     handleTx: handleHarvest,
     txStatus: harvestStatus,
     txInProgress: harvIP,
-  } = useContractTransaction(1);
+  } = useContractTransaction();
 
   const harvest = useCallback(async () => {
     try {

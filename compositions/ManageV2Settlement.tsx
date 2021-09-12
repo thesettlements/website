@@ -16,12 +16,12 @@ export const ManageV2Settlement: React.FC<ManageSettlementProps> = ({
     handleTx: handleRand,
     txStatus: randTxStatus,
     txInProgress: randIP,
-  } = useContractTransaction(1);
+  } = useContractTransaction();
   const {
     handleTx: handleHarvest,
     txStatus: harvestStatus,
     txInProgress: harvIP,
-  } = useContractTransaction(1);
+  } = useContractTransaction();
 
   const randomise = useCallback(async () => {
     try {

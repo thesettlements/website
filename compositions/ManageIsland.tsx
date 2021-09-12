@@ -12,7 +12,7 @@ export const ManageIsland: React.FC<ManageIslandProps> = ({ id }) => {
     handleTx: handleHarvest,
     txStatus: harvestStatus,
     txInProgress: harvIP,
-  } = useContractTransaction(1);
+  } = useContractTransaction(0);
 
   const harvest = useCallback(async () => {
     try {

@@ -24,7 +24,7 @@ export const ManageLegacySettlement: React.FC<ManageSettlementProps> = ({
     handleTx: handleCheapTx,
     txStatus: cheapTxStatus,
     txInProgress: cheapIp,
-  } = useContractTransaction(1);
+  } = useContractTransaction();
 
   const migrateV2Cheap = useCallback(async () => {
     try {

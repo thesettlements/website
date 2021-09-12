@@ -1,7 +1,12 @@
 import Head from "next/head";
 import styles from "styles/Settlement.module.scss";
 import React, { Fragment, useCallback, useContext, useMemo } from "react";
-import { GetServerSideProps, GetStaticPaths, NextPage } from "next";
+import {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticProps,
+  NextPage,
+} from "next";
 import { useRouter } from "next/router";
 import { MediaObject, NFTFullPage } from "@zoralabs/nft-components";
 import {
@@ -86,12 +91,10 @@ const ViewIsland: NextPage<Props> = ({ id, description, data }) => {
   );
 };
 
-export const getStaticProps: GetServerSideProps<Props> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   if (!params?.id || Array.isArray(params.id)) {
     return { notFound: true };
   }
-
-  const id = params.id as string;
 
   try {
     const data = await contractService.fetchTokenData(
@@ -108,7 +111,7 @@ export const getStaticProps: GetServerSideProps<Props> = async ({ params }) => {
 
     return {
       props: {
-        id,
+        id: params.id,
         name: data?.name,
         description: data?.description,
         image: data?.image,

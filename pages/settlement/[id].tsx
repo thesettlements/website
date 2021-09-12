@@ -1,7 +1,12 @@
 import Head from "next/head";
 import styles from "styles/Settlement.module.scss";
 import React, { Fragment, useCallback, useContext, useMemo } from "react";
-import { GetServerSideProps, GetStaticPaths, NextPage } from "next";
+import {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticProps,
+  NextPage,
+} from "next";
 import { useRouter } from "next/router";
 import { MediaObject, NFTFullPage } from "@zoralabs/nft-components";
 import {
@@ -149,7 +154,7 @@ const ViewSettlement: NextPage<SettlementProps> = ({
   );
 };
 
-export const getStaticProps: GetServerSideProps<SettlementProps> = async ({
+export const getStaticProps: GetStaticProps<SettlementProps> = async ({
   params,
 }) => {
   if (!params?.id || Array.isArray(params.id)) {
