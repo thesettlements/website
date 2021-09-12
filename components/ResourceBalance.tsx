@@ -35,7 +35,7 @@ const resourceToContract: {
   pearl: PEARL_TOKEN_ADDRESS,
   oil: OIL_TOKEN_ADDRESS,
   diamond: DIAMOND_TOKEN_ADDRESS,
-  setlExp: SETL_EXP_TOKEN_ADDRESS,
+  ["settlements experience"]: SETL_EXP_TOKEN_ADDRESS,
 };
 
 export const ResourceBalance: React.FC<{ resource: string }> = ({
