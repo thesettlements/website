@@ -93,8 +93,6 @@ export const getStaticProps: GetServerSideProps<Props> = async ({ params }) => {
     return { notFound: true };
   }
 
-  const id = params.id as string;
-
   try {
     const data = await contractService.fetchTokenData(
       params.id,
@@ -110,7 +108,7 @@ export const getStaticProps: GetServerSideProps<Props> = async ({ params }) => {
 
     return {
       props: {
-        id,
+        id: params.id,
         name: data?.name,
         description: data?.description,
         image: data?.image,
