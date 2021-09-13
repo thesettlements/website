@@ -16,9 +16,9 @@ export interface SettlementData {
 }
 
 
-async function fetchTokenData(tokenId: string): Promise<SettlementData | undefined> {
+async function fetchTokenData(tokenId: string, contractAddress: string): Promise<SettlementData | undefined> {
   try {
-    const contract = new Contract(SETTLEMENT_CONTRACT_ADDRESS, [
+    const contract = new Contract(contractAddress, [
       'function tokenURI(uint256 tokenId) public view returns (string memory)'
     ], defaultProvider)
     const uri = await contract.tokenURI(tokenId)
@@ -43,7 +43,6 @@ async function fetchTokenDataV2(tokenId: string): Promise<SettlementData | undef
     }
     return
   }
-
 }
 
 export const contractService = {
